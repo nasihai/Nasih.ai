@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Nasih AI</title>
+</head>
 
+<body>
+
+  <h2>AI Chat</h2>
+
+  <input id="messageInput" placeholder="Type your question..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <p id="responseBox"></p>
+
+  <script>
+    async function sendMessage() {
+
+      const message = document.getElementById("messageInput").value;
+
+      try {
+
+        const res = await fetch("https://nasih-worker.venteruly.workers.dev", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: message
+          })
+        });
+
+        const data = await res.json();
+
+        document.getElementById("responseBox").innerText =
+          data.reply || "No response";
+
+      } catch (error) {
+
+        document.getElementById("responseBox").innerText =
+          "Error: " + error.message;
+      }
+    }
+  </script>
+
+</body>
+</html>
